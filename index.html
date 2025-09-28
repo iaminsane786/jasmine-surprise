@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For Jasmine 🌹</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      background: url("bg.jpg") no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container {
+      position: relative;
+      top: 30%;
+      transform: translateY(-30%);
+    }
+    .hidden { display: none; }
+    .btn {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ff4d6d;
+      color: white;
+    }
+    .message-box {
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      margin: 15px auto;
+      display: inline-block;
+      border-radius: 10px;
+    }
+    img, video {
+      max-width: 80%;
+      border-radius: 10px;
+      margin: 15px 0;
+    }
+    .timer {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Step 1 -->
+    <div id="step1">
+      <div class="message-box">Hey Jasmine 🌹 Want a surprise ??</div><br>
+      <button class="btn" onclick="step1Yes()">Yes</button>
+      <button class="btn" onclick="step1No()">No</button>
+      <div id="step1Box" class="message-box hidden">Pls choose yes na my red rose 🌹</div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="hidden">
+      <img src="cat-guitar.png" alt="Cat Guitar">
+      <div class="message-box">Pehlee ek gaana sunlo meri jasmine 🎵🎸<br>
+        GAAATA RHE MERA DILLLLL TUHI MAAAJI MANJILLLLLL LA LA LA LA LELEEOOOOO
+      </div>
+      <button class="btn" onclick="nextStep(3)">Next ➡️</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3" class="hidden">
+      <div class="message-box">
+        Pehle ek SMILE kro aur Mujhe imagine kro 🌷 jaldi jaldi 😁.....<br><br>
+        Krliya ??
+      </div>
+      <button class="btn" onclick="step3Yes()">Yes</button>
+      <button class="btn" onclick="step3No()">No</button>
+      <div id="step3Box" class="message-box hidden">No No sochna pdega 😁</div>
+    </div>
+
+    <!-- Step 4 -->
+    <div id="step4" class="hidden">
+      <img src="cat-camera.png" alt="Cat Camera">
+      <div class="message-box">
+        Imagine kr rhe the na jaldi jaldi ek photo le leta hun✨
+      </div>
+      <button class="btn" onclick="nextStep(5)">Next ➡️</button>
+    </div>
+
+    <!-- Step 5 -->
+    <div id="step5" class="hidden">
+      <div class="timer" id="timer">15</div>
+      <div class="message-box">
+        Hamari Ancient Letter apko pasnd ayi but khaas chiye aur bi apko hain na 😁!!!!!<br>
+        To theek hai ab jaldi se anken band krdo 5 secs ke liye fir open kro......
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div id="step6" class="hidden">
+      <img src="funny-rose.png" alt="Funny Rose">
+      <div class="message-box">
+        Kya dekh rhi ho surprise kahan hai hahahahahah......<br>
+        Ulluuu banaya bada maza aya 😅
+      </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div id="step7" class="hidden">
+      <video autoplay loop muted>
+        <source src="final-video.mp4" type="video/mp4">
+      </video>
+      <div class="message-box">
+        Hey Jasmine just wanted to say you I will fall for you in no gravity also 😅<br>
+        You are a blessing for me blessed by Allah SWT ♥️<br>
+        Thank u for coming in my life and inshallah we will do nikah with the help of Allah SWT Ameen
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function step1Yes() {
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+    }
+    function step1No() {
+      let box = document.getElementById('step1Box');
+      box.classList.remove('hidden');
+      setTimeout(()=> box.classList.add('hidden'), 3000);
+    }
+
+    function nextStep(n) {
+      for (let i=1; i<=7; i++) {
+        document.getElementById('step'+i)?.classList.add('hidden');
+      }
+      document.getElementById('step'+n).classList.remove('hidden');
+      if(n===5){ startTimer(); }
+      if(n===6){ setTimeout(()=>nextStep(7), 10000); }
+    }
+
+    function step3Yes() {
+      nextStep(4);
+    }
+    function step3No() {
+      let box = document.getElementById('step3Box');
+      box.classList.remove('hidden');
+      setTimeout(()=> box.classList.add('hidden'), 3000);
+    }
+
+    function startTimer() {
+      let time = 15;
+      let t = document.getElementById('timer');
+      let countdown = setInterval(()=>{
+        t.textContent = time;
+        time--;
+        if(time < 0){
+          clearInterval(countdown);
+          nextStep(6);
+        }
+      },1000);
+    }
+  </script>
+</body>
+</html>
