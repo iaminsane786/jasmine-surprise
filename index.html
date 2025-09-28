@@ -6,157 +6,152 @@
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background: url("bg.jpg") no-repeat center center fixed;
+      background-size: cover;
       font-family: Arial, sans-serif;
       color: white;
       text-align: center;
-      background: url("bg.jpg") no-repeat center center fixed;
-      background-size: cover;
     }
     .container {
-      position: relative;
-      top: 30%;
-      transform: translateY(-30%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 500px;
     }
-    .hidden { display: none; }
-    .btn {
+    button {
       margin: 10px;
       padding: 10px 20px;
-      font-size: 18px;
+      font-size: 16px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+    }
+    .popup {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
       background: #ff4d6d;
       color: white;
-    }
-    .message-box {
-      background: rgba(0,0,0,0.6);
       padding: 15px;
-      margin: 15px auto;
-      display: inline-block;
       border-radius: 10px;
+      display: none;
     }
     img, video {
-      max-width: 80%;
+      max-width: 100%;
       border-radius: 10px;
-      margin: 15px 0;
     }
-    .timer {
-      font-size: 20px;
-      font-weight: bold;
+    #timer {
+      font-size: 18px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Step 1 -->
-    <div id="step1">
-      <div class="message-box">Hey Jasmine 🌹 Want a surprise ??</div><br>
-      <button class="btn" onclick="step1Yes()">Yes</button>
-      <button class="btn" onclick="step1No()">No</button>
-      <div id="step1Box" class="message-box hidden">Pls choose yes na my red rose 🌹</div>
-    </div>
+  <div id="popup" class="popup"></div>
 
-    <!-- Step 2 -->
-    <div id="step2" class="hidden">
-      <img src="cat-guitar.png" alt="Cat Guitar">
-      <div class="message-box">Pehlee ek gaana sunlo meri jasmine 🎵🎸<br>
-        GAAATA RHE MERA DILLLLL TUHI MAAAJI MANJILLLLLL LA LA LA LA LELEEOOOOO
-      </div>
-      <button class="btn" onclick="nextStep(3)">Next ➡️</button>
-    </div>
-
-    <!-- Step 3 -->
-    <div id="step3" class="hidden">
-      <div class="message-box">
-        Pehle ek SMILE kro aur Mujhe imagine kro 🌷 jaldi jaldi 😁.....<br><br>
-        Krliya ??
-      </div>
-      <button class="btn" onclick="step3Yes()">Yes</button>
-      <button class="btn" onclick="step3No()">No</button>
-      <div id="step3Box" class="message-box hidden">No No sochna pdega 😁</div>
-    </div>
-
-    <!-- Step 4 -->
-    <div id="step4" class="hidden">
-      <img src="cat-camera.png" alt="Cat Camera">
-      <div class="message-box">
-        Imagine kr rhe the na jaldi jaldi ek photo le leta hun✨
-      </div>
-      <button class="btn" onclick="nextStep(5)">Next ➡️</button>
-    </div>
-
-    <!-- Step 5 -->
-    <div id="step5" class="hidden">
-      <div class="timer" id="timer">15</div>
-      <div class="message-box">
-        Hamari Ancient Letter apko pasnd ayi but khaas chiye aur bi apko hain na 😁!!!!!<br>
-        To theek hai ab jaldi se anken band krdo 5 secs ke liye fir open kro......
-      </div>
-    </div>
-
-    <!-- Step 6 -->
-    <div id="step6" class="hidden">
-      <img src="funny-rose.png" alt="Funny Rose">
-      <div class="message-box">
-        Kya dekh rhi ho surprise kahan hai hahahahahah......<br>
-        Ulluuu banaya bada maza aya 😅
-      </div>
-    </div>
-
-    <!-- Step 7 -->
-    <div id="step7" class="hidden">
-      <video autoplay loop muted>
-        <source src="final-video.mp4" type="video/mp4">
-      </video>
-      <div class="message-box">
-        Hey Jasmine just wanted to say you I will fall for you in no gravity also 😅<br>
-        You are a blessing for me blessed by Allah SWT ♥️<br>
-        Thank u for coming in my life and inshallah we will do nikah with the help of Allah SWT Ameen
-      </div>
-    </div>
+  <div id="content" class="container">
+    <!-- Content will change step by step -->
   </div>
 
   <script>
-    function step1Yes() {
-      document.getElementById('step1').classList.add('hidden');
-      document.getElementById('step2').classList.remove('hidden');
-    }
-    function step1No() {
-      let box = document.getElementById('step1Box');
-      box.classList.remove('hidden');
-      setTimeout(()=> box.classList.add('hidden'), 3000);
+    let step = 1;
+    const content = document.getElementById("content");
+    const popup = document.getElementById("popup");
+
+    function showPopup(msg, duration=8000) {
+      popup.innerHTML = msg + ` (Closing in ${duration/1000}s)`;
+      popup.style.display = "block";
+      setTimeout(() => {
+        popup.style.display = "none";
+      }, duration);
     }
 
-    function nextStep(n) {
-      for (let i=1; i<=7; i++) {
-        document.getElementById('step'+i)?.classList.add('hidden');
-      }
-      document.getElementById('step'+n).classList.remove('hidden');
-      if(n===5){ startTimer(); }
-      if(n===6){ setTimeout(()=>nextStep(7), 10000); }
+    function loadStep1() {
+      content.innerHTML = `
+        <h2>Hey Jasmine 🌹 Want a surprise ??</h2>
+        <button onclick="noClicked()">No</button>
+        <button onclick="loadStep2()">Yes</button>
+      `;
     }
 
-    function step3Yes() {
-      nextStep(4);
-    }
-    function step3No() {
-      let box = document.getElementById('step3Box');
-      box.classList.remove('hidden');
-      setTimeout(()=> box.classList.add('hidden'), 3000);
+    function noClicked() {
+      showPopup("Pls choose yes na my red rose 🌹", 8000);
     }
 
-    function startTimer() {
+    function loadStep2() {
+      step = 2;
+      content.innerHTML = `
+        <img src="cat-guitar.png" alt="cat guitar">
+        <p>Pehle ek gaana sunlo meri jasmine 🎶💕<br>
+        GAAATA RHE MERA DILLLLL TUH MAAAJI MANJULLLLL LA LA LA LA LEELEOOOOO</p>
+        <button onclick="loadStep3()">Next ⏩</button>
+      `;
+    }
+
+    function loadStep3() {
+      step = 3;
+      content.innerHTML = `
+        <p>Pehle ek SMILE kro aur Mujhe imagine kro 😍 jaldi jaldi 🌍....<br> Krliya ??</p>
+        <button onclick="noSmile()">No</button>
+        <button onclick="loadStep4()">Yes</button>
+      `;
+    }
+
+    function noSmile() {
+      showPopup("No No sochna pdega 😁", 8000);
+    }
+
+    function loadStep4() {
+      step = 4;
+      content.innerHTML = `
+        <img src="cat-camera.png" alt="cat camera">
+        <p>Hahaha mast thi photo aapki mene kheech li 📸</p>
+        <button onclick="loadStep5()">Next ➡️</button>
+      `;
+    }
+
+    function loadStep5() {
+      step = 5;
+      content.innerHTML = `
+        <div id="timer">Timer: 15s</div>
+        <p>
+          Hamari Ancient Letter apko pasand ayi but khaas chiye aur bi apko hain na 😁!!!!!<br>
+          To theek hai ab jaldi se anken band krdo 5 secs ke liye fir open kro......
+        </p>
+      `;
       let time = 15;
-      let t = document.getElementById('timer');
-      let countdown = setInterval(()=>{
-        t.textContent = time;
+      const timerEl = document.getElementById("timer");
+      const interval = setInterval(() => {
         time--;
-        if(time < 0){
-          clearInterval(countdown);
-          nextStep(6);
+        timerEl.innerText = "Timer: " + time + "s";
+        if (time <= 0) {
+          clearInterval(interval);
+          loadStep6();
         }
-      },1000);
+      }, 1000);
     }
+
+    function loadStep6() {
+      step = 6;
+      content.innerHTML = `
+        <video src="f187a6725af3e6330d007bba0af2ee62_720w.mp4" autoplay loop muted></video>
+        <p>
+          Hey Jasmine just wanted to say you I will fall for you in no gravity also😅<br>
+          You are a blessing for me blessed by Allah swt ♥️<br>
+          Thank u for coming in my life and inshallah we will do nikah with the help of Allah swt ameen 🤲
+        </p>
+      `;
+    }
+
+    // start from step 1
+    loadStep1();
   </script>
 </body>
 </html>
